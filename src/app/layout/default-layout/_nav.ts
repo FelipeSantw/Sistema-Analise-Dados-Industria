@@ -25,8 +25,13 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       },
       {
-        name: 'Register',
-        url: '/register',
+        name: 'Cadastro de usuário',
+        url: '/cadastroUsuario',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Perfil de usuário',
+        url: '/perfilUsuario',
         icon: 'nav-icon-bullet'
       },
       {

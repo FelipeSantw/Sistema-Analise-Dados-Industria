@@ -1,0 +1,52 @@
+.perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+}
+
+.perfil_usuario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.foto_perfil {
+    height: auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-image: url('src/app/views/images/perfil-usuario.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 10px 0px 0px 0px;
+}
+
+.perfil_usuario > h1 {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.dados_usuario {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 800px;
+}
+
+.dados_usuario > div {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    box-shadow: 3px 3px 2px #a7a7a7;
+    padding: 20px;
+    margin: 10px;
+    font-size: 1.5em;
+}
+
+.dados_usuario > div > label {
+    font-weight: bold;
+}
