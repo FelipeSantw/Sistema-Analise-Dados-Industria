@@ -1,3 +1,28 @@
+.nav_perfil {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    align-self: center;
+    list-style: none; 
+    width: 400px; 
+    padding-top: 15px;
+}
+
+.link_perfil {
+    font-size: 1.4em;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.link_perfil > a:hover {
+    color: blue;
+}
+
+.link_perfil > a {
+    text-decoration: none; 
+    color: #000000;
+}
+
 .perfil {
     display: flex;
     flex-direction: column;
@@ -16,7 +41,7 @@
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    background-image: url('src/app/views/images/perfil-usuario.png');
+    background-image: url('src/assets/images/perfil-usuario.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -49,4 +74,28 @@
 
 .dados_usuario > div > label {
     font-weight: bold;
+}
+
+//Responsividade para telas menores
+
+@media (max-width:1000px) {
+    .dados_usuario > div {
+        width: 300px;
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width:770px) {
+    .dados_usuario {
+        width: 500px;
+    }
+
+    .nav_perfil {
+        width: 260px;
+        padding: 15px 0px 0px 0px;
+    }
+
+    .link_perfil {
+        font-size: 1em;
+    }
 }
