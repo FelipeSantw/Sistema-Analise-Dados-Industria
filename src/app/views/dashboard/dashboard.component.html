@@ -1,3 +1,17 @@
+<c-card class="my-4">
+  <c-card-header>
+    <strong>Selecione a Máquina para verificar suas produções</strong>
+  </c-card-header>
+  <c-card-body>
+    <select class="select-machines" (change)="onMachineSelect($event)">
+      <option value="">Selecione um valor</option>
+      <option *ngFor="let machine of machines" [value]="machine.id">
+        {{ machine.id }} - {{ machine.name }}
+      </option>
+    </select>
+  </c-card-body>
+</c-card>
+
 <!-- Gráfico Principal -->
 <c-card class="my-4">
   <c-card-body>

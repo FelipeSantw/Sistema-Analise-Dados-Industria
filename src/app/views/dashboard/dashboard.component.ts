@@ -25,6 +25,9 @@ import { IconDirective } from '@coreui/icons-angular';
 import { WidgetsBrandComponent } from '../widgets/widgets-brand/widgets-brand.component';
 import { WidgetsDropdownComponent } from '../widgets/widgets-dropdown/widgets-dropdown.component';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import machinesData from '../../../assets/mockdata/machines.json';
+import productionData from '../../../assets/mockdata/production.json';
+import { SelectComponent } from './select.components';
 
 interface IUser {
   name: string;
@@ -39,7 +42,27 @@ interface IUser {
   status: string;
   color: string;
 }
+interface Machine {
+  id: number;
+  name: string;
+  type: string;
+  productionCapacity: number;
+  plannedProductionTime: number;
+  location: string;
+  status: string;
+  oeePercentage: number;
+}
 
+interface Production {
+  id: number;
+  productionTime: number;
+  itemsProduced: number;
+  defectiveItems: number;
+  productionDate: number; // timestamp in milliseconds
+  shift: string;
+  machineId: number;
+  oeePercentage: number;
+}
 @Component({
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
@@ -58,6 +81,10 @@ export class DashboardComponent implements OnInit {
   readonly #document: Document = inject(DOCUMENT);
   readonly #renderer: Renderer2 = inject(Renderer2);
   readonly #chartsData: DashboardChartsData = inject(DashboardChartsData);
+  public machines: Machine[] = machinesData;
+  public productions: Production[] = productionData;
+  public selectedMachineId: number | null = null;
+  public selectedProductions: Production[] = [];
 
   public users: IUser[] = [
     {
@@ -203,5 +230,25 @@ export class DashboardComponent implements OnInit {
         this.mainChartRef().update();
       });
     }
+  }
+  onMachineSelect(event: Event): void {
+    const machineId = Number((event.target as HTMLSelectElement).value);
+    this.selectedMachineId = machineId;
+
+    console.log('Selected Machine ID:', this.selectedMachineId);
+
+    // Filtra produções com base no machineId selecionado
+    this.selectedProductions = this.productions.filter(
+      production => production.machineId === this.selectedMachineId
+    );
+
+    console.log('Selected Productions:', this.selectedProductions);
+
+    // Processa a data e os outros dados
+    this.selectedProductions.forEach(production => {
+      const productionDate = new Date(production.productionDate).toLocaleDateString();
+      console.log(`Production ID: ${production.id}, Date: ${productionDate}`);
+      // Adicione outros processamentos conforme necessário
+    });
   }
 }
