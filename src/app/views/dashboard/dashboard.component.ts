@@ -172,9 +172,9 @@ export class DashboardComponent implements OnInit {
     this.chartRadarData = this.#chartsData.chartRadarData;
   }
 
-  setTrafficPeriod(value: string): void {
+  setTrafficPeriod(value: 'machines' | 'production'): void {
     this.trafficRadioGroup.setValue({ trafficRadio: value });
-    this.#chartsData.initMainChart(value);
+    this.#chartsData.initCharts(value);
     this.initCharts();
   }
 

@@ -26,6 +26,9 @@ export interface IChartProps {
   providedIn: 'any'
 })
 export class DashboardChartsData {
+  initCharts(value: string) {
+    throw new Error('Method not implemented.');
+  }
   chartBarData!: IChartProps;
   chartDoughnutData!: IChartProps;
   chartPieData!: IChartProps;
