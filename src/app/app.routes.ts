@@ -43,10 +43,6 @@ export const routes: Routes = [
         loadChildren: () => import('./views/notifications/routes').then((m) => m.routes)
       },
       {
-        path: 'widgets',
-        loadChildren: () => import('./views/widgets/routes').then((m) => m.routes)
-      },
-      {
         path: 'charts',
         loadChildren: () => import('./views/charts/routes').then((m) => m.routes)
       },
@@ -55,20 +51,6 @@ export const routes: Routes = [
         loadChildren: () => import('./views/pages/routes').then((m) => m.routes)
       }
     ]
-  },
-  {
-    path: '404',
-    loadComponent: () => import('./views/pages/page404/page404.component').then(m => m.Page404Component),
-    data: {
-      title: 'Page 404'
-    }
-  },
-  {
-    path: '500',
-    loadComponent: () => import('./views/pages/page500/page500.component').then(m => m.Page500Component),
-    data: {
-      title: 'Page 500'
-    }
   },
   {
     path: 'login',
