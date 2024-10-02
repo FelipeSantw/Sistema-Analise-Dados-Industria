@@ -78,10 +78,17 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'register',
-    loadComponent: () => import('./views/pages/register/register.component').then(m => m.RegisterComponent),
+    path: 'cadastroUsuario',
+    loadComponent: () => import('./views/pages/cadastroUsuario/cadastroUsuario.component').then(m => m.cadastroUsuarioComponent),
     data: {
-      title: 'Register Page'
+      title: 'Crie sua conta'
+    }
+  },
+  {
+    path: 'perfilUsuario',
+    loadComponent: () => import('./views/pages/perfilUsuario/perfilUsuario.component').then(m => m.perfilUsuarioComponent),
+    data: {
+      title: 'Crie sua conta'
     }
   },
   { path: '**', redirectTo: 'dashboard' }

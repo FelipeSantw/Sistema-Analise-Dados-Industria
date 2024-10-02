@@ -23,10 +23,10 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'register',
-    loadComponent: () => import('./register/register.component').then(m => m.RegisterComponent),
+    path: 'cadastroUsuario',
+    loadComponent: () => import('./cadastroUsuario/cadastroUsuario.component').then(m => m.cadastroUsuarioComponent),
     data: {
-      title: 'Register Page'
+      title: 'Crie sua conta'
     }
   }
 ];
