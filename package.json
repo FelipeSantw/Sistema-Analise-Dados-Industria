@@ -36,6 +36,7 @@
     "@coreui/icons": "^3.0.1",
     "@coreui/icons-angular": "~5.2.16",
     "@coreui/utils": "^2.0.2",
+    "@types/chart.js": "^2.9.41",
     "chart.js": "^4.4.4",
     "coreui-free-angular-admin-template": "file:",
     "lodash-es": "^4.17.21",
