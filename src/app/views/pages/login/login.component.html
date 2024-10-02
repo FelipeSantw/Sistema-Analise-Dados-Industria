@@ -7,12 +7,12 @@
             <c-card-body>
               <form cForm>
                 <h1>Login</h1>
-                <p class="text-body-secondary">Entre com sua conta</p>
+                <p class="text-body-secondary">Sign In to your account</p>
                 <c-input-group class="mb-3">
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
                   </span>
-                  <input autoComplete="username" cFormControl placeholder="Nome de usuário" />
+                  <input autoComplete="username" cFormControl placeholder="Username" />
                 </c-input-group>
                 <c-input-group class="mb-4">
                   <span cInputGroupText>
@@ -21,19 +21,19 @@
                   <input
                     autoComplete="current-password"
                     cFormControl
-                    placeholder="Senha"
+                    placeholder="Password"
                     type="password"
                   />
                 </c-input-group>
                 <c-row>
                   <c-col xs="6">
                     <button cButton class="px-4" color="primary">
-                      Entrar
+                      Login
                     </button>
                   </c-col>
                   <c-col class="text-right" xs="6">
                     <button cButton class="px-0" color="link">
-                      Esqueceu sua senha?
+                      Forgot password?
                     </button>
                   </c-col>
                 </c-row>
@@ -43,12 +43,13 @@
           <c-card [ngStyle]="{'minWidth.%': 44}" class="text-white bg-primary py-5">
             <c-card-body class="text-center">
               <div>
-                <h2>Cadastre-se</h2>
+                <h2>Sign up</h2>
                 <p>
-                  Crie sua conta para poder acessar a plataforma!
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua.
                 </p>
                 <button [active]="true" cButton class="mt-3" color="primary" routerLink="/register">
-                  Cadastrar agora
+                  Register Now!
                 </button>
               </div>
             </c-card-body>
