@@ -23,6 +23,13 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'aboutus',
+    loadComponent: () => import('./aboutus/aboutus.component').then(m => m.AboutUsComponent),
+    data: {
+      title: 'About Us Page'
+    }
+  },
+  {
     path: 'register',
     loadComponent: () => import('./register/register.component').then(m => m.RegisterComponent),
     data: {
