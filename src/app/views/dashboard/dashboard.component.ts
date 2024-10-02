@@ -44,7 +44,13 @@ interface IUser {
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
   standalone: true,
-  imports: [WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent, ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent, FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective, ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent, TableDirective, AvatarComponent]
+  imports: [
+    WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent,
+    ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent,
+    FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective,
+    ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent,
+    TableDirective, AvatarComponent
+  ]
 })
 export class DashboardComponent implements OnInit {
 
@@ -135,13 +141,19 @@ export class DashboardComponent implements OnInit {
   ];
 
   public mainChart: IChartProps = { type: 'line' };
+  public chartBarData: IChartProps = { type: 'bar' };
+  public chartDoughnutData: IChartProps = { type: 'doughnut' };
+  public chartPieData: IChartProps = { type: 'pie' };
+  public chartPolarAreaData: IChartProps = { type: 'polarArea' };
+  public chartRadarData: IChartProps = { type: 'radar' };
+
   public mainChartRef: WritableSignal<any> = signal(undefined);
   #mainChartRefEffect = effect(() => {
     if (this.mainChartRef()) {
       this.setChartStyles();
     }
   });
-  public chart: Array<IChartProps> = [];
+
   public trafficRadioGroup = new FormGroup({
     trafficRadio: new FormControl('Month')
   });
@@ -153,6 +165,11 @@ export class DashboardComponent implements OnInit {
 
   initCharts(): void {
     this.mainChart = this.#chartsData.mainChart;
+    this.chartBarData = this.#chartsData.chartBarData;
+    this.chartDoughnutData = this.#chartsData.chartDoughnutData;
+    this.chartPieData = this.#chartsData.chartPieData;
+    this.chartPolarAreaData = this.#chartsData.chartPolarAreaData;
+    this.chartRadarData = this.#chartsData.chartRadarData;
   }
 
   setTrafficPeriod(value: string): void {
