@@ -1,10 +1,9 @@
-div.input_sexo {
-    display: flex !important;
-    align-items: center !important;
-    margin: 0px 0px 0px 10px !important;
-}
-
-.input_sexo > input {
+.input_genero > input {
     margin: 0px 5px 0px 10px !important;
     cursor: pointer;
+}
+
+select#genero {
+    border: var(--cui-border-width) solid var(--cui-border-color);
+    border-radius: var(--cui-border-radius);
 }

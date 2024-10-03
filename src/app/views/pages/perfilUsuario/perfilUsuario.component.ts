@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { IconDirective } from '@coreui/icons-angular';
-import { ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective } from '@coreui/angular';
+import { DefaultHeaderComponent } from 'src/app/layout/default-layout/default-header/default-header.component'; // Ajuste o caminho conforme necessário
+import { CardModule } from '@coreui/angular'; // Certifique-se de que está importando o módulo correto
+import { ContainerComponent } from '@coreui/angular'; // Certifique-se de que está importando o módulo correto
 
 @Component({
-    selector: 'app-perfilUsuario',
-    templateUrl: './perfilUsuario.component.html',
-    styleUrls: ['./perfilUsuario.component.scss'],
-    standalone: true,
-    imports: [ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective]
+  selector: 'app-perfilUsuario', // O seletor do seu novo componente
+  templateUrl: './perfilUsuario.component.html',
+  standalone: true,
+  imports: [DefaultHeaderComponent, CardModule, ContainerComponent] // Adicione CardModule aqui
 })
 export class perfilUsuarioComponent {
-
-  constructor() { }
-
+  // Lógica do seu componente
 }
