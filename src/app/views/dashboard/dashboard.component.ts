@@ -7,9 +7,8 @@ import { CardModule, AvatarComponent, ButtonDirective, ButtonGroupComponent, Car
 import { ChartjsComponent } from '@coreui/angular-chartjs';
 import { IconDirective } from '@coreui/icons-angular';
 import { SyncService } from './sync.service';
-import { WidgetsBrandComponent } from '../widgets/widgets-brand/widgets-brand.component';
-import { WidgetsDropdownComponent } from '../widgets/widgets-dropdown/widgets-dropdown.component';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
+import { Router } from '@angular/router';
 // import { machinesData } from '../../../assets/mockdata/machines';  // Dados mockados
 // import { productionData } from '../../../assets/mockdata/production'; 
 
@@ -43,18 +42,18 @@ interface Production {
   providers: [
     SyncService
   ],
-  imports: [
-    WidgetsDropdownComponent, TextColorDirective, CardComponent, CardBodyComponent, RowComponent,
+  imports: [ 
+    TextColorDirective, CardComponent, CardBodyComponent, RowComponent,
     ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent,
     FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective,
-    ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent,
+    ProgressBarDirective, ProgressComponent, CardHeaderComponent,
     TableDirective, AvatarComponent, CardModule, CommonModule
   ]
 })
 export class DashboardComponent implements OnInit {
   selectedMachine: any;
 
-  constructor(private syncService: SyncService) {}
+  constructor(private syncService: SyncService, private router: Router) {}
 
   readonly #destroyRef: DestroyRef = inject(DestroyRef);
   readonly #document: Document = inject(DOCUMENT);
@@ -149,6 +148,7 @@ export class DashboardComponent implements OnInit {
     this.syncService.syncData().subscribe({
       next: (data: any) => {
         console.log('Dados sincronizados com sucesso:', data);
+        window.location.reload();
       },
       error: (error: any) => {
         console.error('Erro ao sincronizar dados:', error);
