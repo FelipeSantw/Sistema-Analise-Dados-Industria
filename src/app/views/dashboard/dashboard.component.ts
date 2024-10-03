@@ -1,47 +1,18 @@
-import { DOCUMENT, NgStyle } from '@angular/common';
-import { Component, DestroyRef, effect, inject, OnInit, Renderer2, signal, WritableSignal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { DOCUMENT, NgStyle, CommonModule } from '@angular/common';
+import { DestroyRef, effect, inject, Renderer2, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChartOptions } from 'chart.js';
-import {
-  AvatarComponent,
-  ButtonDirective,
-  ButtonGroupComponent,
-  CardBodyComponent,
-  CardComponent,
-  CardFooterComponent,
-  CardHeaderComponent,
-  ColComponent,
-  FormCheckLabelDirective,
-  GutterDirective,
-  ProgressBarDirective,
-  ProgressComponent,
-  RowComponent,
-  TableDirective,
-  TextColorDirective
-} from '@coreui/angular';
+import { CardModule, AvatarComponent, ButtonDirective, ButtonGroupComponent, CardBodyComponent, CardComponent, CardFooterComponent, CardHeaderComponent, ColComponent, FormCheckLabelDirective, GutterDirective, ProgressBarDirective, ProgressComponent, RowComponent, TableDirective, TextColorDirective } from '@coreui/angular';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
 import { IconDirective } from '@coreui/icons-angular';
 
 import { WidgetsBrandComponent } from '../widgets/widgets-brand/widgets-brand.component';
 import { WidgetsDropdownComponent } from '../widgets/widgets-dropdown/widgets-dropdown.component';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
-import machinesData from '../../../assets/mockdata/machines.json';
-import productionData from '../../../assets/mockdata/production.json';
-import { SelectComponent } from './select.components';
+import { machinesData } from '../../../assets/mockdata/machines';
+import { productionData } from '../../../assets/mockdata/production';
 
-interface IUser {
-  name: string;
-  state: string;
-  registered: string;
-  country: string;
-  usage: number;
-  period: string;
-  payment: string;
-  activity: string;
-  avatar: string;
-  status: string;
-  color: string;
-}
 interface Machine {
   id: number;
   name: string;
@@ -58,12 +29,14 @@ interface Production {
   productionTime: number;
   itemsProduced: number;
   defectiveItems: number;
-  productionDate: number; // timestamp in milliseconds
+  productionDate: number;
   shift: string;
   machineId: number;
   oeePercentage: number;
 }
+
 @Component({
+  selector: 'app-dashboard',
   templateUrl: 'dashboard.component.html',
   styleUrls: ['dashboard.component.scss'],
   standalone: true,
@@ -72,7 +45,7 @@ interface Production {
     ColComponent, ButtonDirective, IconDirective, ReactiveFormsModule, ButtonGroupComponent,
     FormCheckLabelDirective, ChartjsComponent, NgStyle, CardFooterComponent, GutterDirective,
     ProgressBarDirective, ProgressComponent, WidgetsBrandComponent, CardHeaderComponent,
-    TableDirective, AvatarComponent
+    TableDirective, AvatarComponent, CardModule, CommonModule
   ]
 })
 export class DashboardComponent implements OnInit {
@@ -81,91 +54,11 @@ export class DashboardComponent implements OnInit {
   readonly #document: Document = inject(DOCUMENT);
   readonly #renderer: Renderer2 = inject(Renderer2);
   readonly #chartsData: DashboardChartsData = inject(DashboardChartsData);
+
   public machines: Machine[] = machinesData;
   public productions: Production[] = productionData;
   public selectedMachineId: number | null = null;
   public selectedProductions: Production[] = [];
-
-  public users: IUser[] = [
-    {
-      name: 'Yiorgos Avraamu',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Us',
-      usage: 50,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Mastercard',
-      activity: '10 sec ago',
-      avatar: './assets/images/avatars/1.jpg',
-      status: 'success',
-      color: 'success'
-    },
-    {
-      name: 'Avram Tarasios',
-      state: 'Recurring ',
-      registered: 'Jan 1, 2021',
-      country: 'Br',
-      usage: 10,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Visa',
-      activity: '5 minutes ago',
-      avatar: './assets/images/avatars/2.jpg',
-      status: 'danger',
-      color: 'info'
-    },
-    {
-      name: 'Quintin Ed',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'In',
-      usage: 74,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Stripe',
-      activity: '1 hour ago',
-      avatar: './assets/images/avatars/3.jpg',
-      status: 'warning',
-      color: 'warning'
-    },
-    {
-      name: 'Enéas Kwadwo',
-      state: 'Sleep',
-      registered: 'Jan 1, 2021',
-      country: 'Fr',
-      usage: 98,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Paypal',
-      activity: 'Last month',
-      avatar: './assets/images/avatars/4.jpg',
-      status: 'secondary',
-      color: 'danger'
-    },
-    {
-      name: 'Agapetus Tadeáš',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Es',
-      usage: 22,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'ApplePay',
-      activity: 'Last week',
-      avatar: './assets/images/avatars/5.jpg',
-      status: 'success',
-      color: 'primary'
-    },
-    {
-      name: 'Friderik Dávid',
-      state: 'New',
-      registered: 'Jan 1, 2021',
-      country: 'Pl',
-      usage: 43,
-      period: 'Jun 11, 2021 - Jul 10, 2021',
-      payment: 'Amex',
-      activity: 'Yesterday',
-      avatar: './assets/images/avatars/6.jpg',
-      status: 'info',
-      color: 'dark'
-    }
-  ];
 
   public mainChart: IChartProps = { type: 'line' };
   public chartBarData: IChartProps = { type: 'bar' };
@@ -188,6 +81,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.initCharts();
     this.updateChartOnColorModeChange();
+    this.loadMachines();
   }
 
   initCharts(): void {
@@ -199,10 +93,8 @@ export class DashboardComponent implements OnInit {
     this.chartRadarData = this.#chartsData.chartRadarData;
   }
 
-  setTrafficPeriod(value: 'machines' | 'production'): void {
-    this.trafficRadioGroup.setValue({ trafficRadio: value });
-    this.#chartsData.initCharts(value);
-    this.initCharts();
+  loadMachines(): void {
+    console.log('Machines loaded:', this.machines);
   }
 
   handleChartRef($chartRef: any) {
@@ -231,24 +123,38 @@ export class DashboardComponent implements OnInit {
       });
     }
   }
+
   onMachineSelect(event: Event): void {
     const machineId = Number((event.target as HTMLSelectElement).value);
     this.selectedMachineId = machineId;
-
+  
     console.log('Selected Machine ID:', this.selectedMachineId);
-
-    // Filtra produções com base no machineId selecionado
+  
     this.selectedProductions = this.productions.filter(
       production => production.machineId === this.selectedMachineId
     );
-
+  
     console.log('Selected Productions:', this.selectedProductions);
+  
+    this.updateChartsWithSelectedProductions();
+  }
 
-    // Processa a data e os outros dados
-    this.selectedProductions.forEach(production => {
-      const productionDate = new Date(production.productionDate).toLocaleDateString();
-      console.log(`Production ID: ${production.id}, Date: ${productionDate}`);
-      // Adicione outros processamentos conforme necessário
+  updateChartsWithSelectedProductions(): void {
+    const sortedProductions = this.selectedProductions.sort((a, b) => a.productionDate - b.productionDate);
+    
+    const productionTimes = sortedProductions.map(p => p.productionTime);
+    const itemsProduced = sortedProductions.map(p => p.itemsProduced);
+    const defectiveItems = sortedProductions.map(p => p.defectiveItems);
+    const oeePercentages = sortedProductions.map(p => p.oeePercentage);
+    
+    const labels = sortedProductions.map(p => {
+      const date = new Date(p.productionDate);
+      return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
     });
+    
+    this.#chartsData.updateMainChartData(itemsProduced, defectiveItems, labels);
+    this.#chartsData.updateBarChartData(oeePercentages, labels);
+    this.#chartsData.updateDoughnutChartData(itemsProduced, defectiveItems);
+    this.#chartsData.updatePieChartData(defectiveItems);
   }
 }

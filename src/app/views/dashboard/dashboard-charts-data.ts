@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  Chart,
   ChartData,
   ChartDataset,
   ChartOptions,
@@ -9,6 +10,7 @@ import {
   TooltipLabelStyle
 } from 'chart.js';
 import { DeepPartial } from 'chart.js/dist/types/utils';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { getStyle, hexToRgba } from '@coreui/utils';
 
 export interface IChartProps {
@@ -35,6 +37,8 @@ export class DashboardChartsData {
   chartPolarAreaData!: IChartProps;
   chartRadarData!: IChartProps;
 
+  public mainChart: IChartProps = { type: 'line' };
+
   constructor() {
     this.initMainChart();
     this.initBarChart();
@@ -44,38 +48,133 @@ export class DashboardChartsData {
     this.initRadarChart();
   }
 
-  public mainChart: IChartProps = { type: 'line' };
+  // Funções para atualizar os dados dos gráficos
+  updateMainChartData(itemsProduced: number[], defectiveItems: number[], labels: string[]) {
+    // Ajusta dinamicamente o limite máximo do eixo Y com base nos valores fornecidos
+    const maxY = Math.max(...itemsProduced, ...defectiveItems) + 10; // Adiciona uma margem de 10
 
-  public random(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+    this.mainChart.data = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Items Produced',
+          data: itemsProduced,
+          borderColor: '#20a8d8',
+          backgroundColor: 'rgba(32, 168, 216, 0.2)',
+          fill: true,
+        },
+        {
+          label: 'Defective Items',
+          data: defectiveItems,
+          borderColor: '#f86c6b',
+          backgroundColor: 'rgba(248, 108, 107, 0.2)',
+          fill: true,
+        },
+        {
+          label: 'Trend Line',
+          data: this.calculateTrendLine(itemsProduced),
+          borderColor: '#4dbd74',
+          borderDash: [5, 5],
+          fill: false,
+        }
+      ]
+    };
+
+    // Atualiza o gráfico com os novos dados e o limite de escala dinâmico
+    this.mainChart.options = {
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          ticks: { color: '#000' },
+          grid: { display: false },
+        },
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: '#000',
+            stepSize: Math.ceil(maxY / 5), // Divide o eixo Y em 5 passos
+          },
+          min: 0,
+          max: maxY // Ajusta dinamicamente o valor máximo do eixo Y
+        }
+      },
+      elements: {
+        line: { tension: 0.4 },
+        point: { radius: 5, hoverRadius: 8 },
+      }
+    };
   }
 
-  // Main Line Chart Initialization
-  initMainChart(period: string = 'Month') {
+  calculateTrendLine(data: number[]): number[] {
+    let trendLine: number[] = [];
+    let windowSize = 3;
+
+    for (let i = 0; i < data.length; i++) {
+      const start = Math.max(0, i - windowSize + 1);
+      const slice = data.slice(start, i + 1);
+      const sum = slice.reduce((acc, curr) => acc + curr, 0);
+      trendLine.push(sum / slice.length);
+    }
+
+    return trendLine;
+  }
+
+  updateBarChartData(oeePercentages: number[], labels: string[]): void {
+    // Calcula a linha de tendência com base nos dados de OEE
+    const trendLine = this.calculateTrendLine(oeePercentages);
+  
+    this.chartBarData.data = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'OEE %',
+          data: oeePercentages, 
+          backgroundColor: '#4dbd74',
+          borderRadius: 5,
+          borderWidth: 2,
+          borderColor: '#4dbd74',
+        },
+        {
+          label: 'Tendency Line',
+          type: 'line', 
+          data: trendLine, 
+          borderColor: '#f86c6b', 
+          borderWidth: 2,
+          fill: false, 
+          pointRadius: 0, 
+          tension: 0.4, 
+        }
+      ]
+    };
+  }
+
+  updateDoughnutChartData(itemsProduced: number[], defectiveItems: number[]): void {
+    const totalItemsProduced = itemsProduced.reduce((acc, produced) => acc + produced, 0);
+    const totalDefectiveItems = defectiveItems.reduce((acc, defective) => acc + defective, 0);
+  
+    this.chartDoughnutData.data = {
+      labels: ['Items Produced', 'Defective Items'],
+      datasets: [{
+        data: [totalItemsProduced, totalDefectiveItems],
+        backgroundColor: ['#41B883', '#E46651'], // Verde para itens produzidos corretamente, vermelho para defeituosos
+      }]
+    };
+  }
+
+  updatePieChartData(defectiveItems: number[]) {
+    this.chartPieData.data = {
+      labels: ['Defective Items'],
+      datasets: [{ data: defectiveItems, backgroundColor: ['#FF6384', '#36A2EB'] }]
+    };
+  }
+
+  // Inicialização dos gráficos
+  initMainChart() {
     const brandSuccess = getStyle('--cui-success') ?? '#4dbd74';
     const brandInfo = getStyle('--cui-info') ?? '#20a8d8';
     const brandInfoBg = hexToRgba(getStyle('--cui-info') ?? '#20a8d8', 10);
     const brandDanger = getStyle('--cui-danger') ?? '#f86c6b';
-
-    this.mainChart['elements'] = period === 'Month' ? 12 : 27;
-    this.mainChart['Data1'] = [];
-    this.mainChart['Data2'] = [];
-    this.mainChart['Data3'] = [];
-
-    for (let i = 0; i <= this.mainChart['elements']; i++) {
-      this.mainChart['Data1'].push(this.random(50, 240));
-      this.mainChart['Data2'].push(this.random(20, 160));
-      this.mainChart['Data3'].push(65);
-    }
-
-    let labels: string[] = [];
-    if (period === 'Month') {
-      labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    } else {
-      const week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-      labels = week.concat(week, week, week);
-    }
-
+  
     const colors = [
       {
         backgroundColor: brandInfoBg,
@@ -97,13 +196,14 @@ export class DashboardChartsData {
         borderDash: [8, 5]
       }
     ];
-
+  
+    // Iniciando o gráfico sem dados
     const datasets: ChartDataset[] = [
-      { data: this.mainChart['Data1'], label: 'Current', ...colors[0] },
-      { data: this.mainChart['Data2'], label: 'Previous', ...colors[1] },
-      { data: this.mainChart['Data3'], label: 'BEP', ...colors[2] }
+      { data: [], label: 'Items Produced', ...colors[0] },
+      { data: [], label: 'Defective Items', ...colors[1] },
+      { data: [], label: 'Trend Line', ...colors[2] }
     ];
-
+  
     const plugins: DeepPartial<PluginOptionsByType<any>> = {
       legend: { display: false },
       tooltip: {
@@ -112,9 +212,9 @@ export class DashboardChartsData {
         }
       }
     };
-
+  
     const scales = this.getScales();
-
+  
     const options: ChartOptions = {
       maintainAspectRatio: false,
       plugins,
@@ -124,65 +224,145 @@ export class DashboardChartsData {
         point: { radius: 0, hitRadius: 10, hoverRadius: 4, hoverBorderWidth: 3 }
       }
     };
-
+  
     this.mainChart.type = 'line';
     this.mainChart.options = options;
-    this.mainChart.data = { datasets, labels };
+    this.mainChart.data = { datasets, labels: [] }; // Sem dados no início
   }
 
-  // Bar Chart Initialization
   initBarChart() {
+    const brandSuccess = getStyle('--cui-success') ?? '#4dbd74';
+    const brandDanger = getStyle('--cui-danger') ?? '#f86c6b'; // Linha de tendência em cor diferente
+  
     this.chartBarData = {
       type: 'bar',
       options: {
         maintainAspectRatio: false,
-        scales: this.getScales(),
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: '#000' },
+          },
+          y: {
+            beginAtZero: true,
+            max: 100, // OEE vai de 0 a 100%
+            ticks: {
+              stepSize: 10,
+              color: '#000',
+              callback: function(tickValue: string | number) {
+                return `${Number(tickValue)}%`; // Adiciona o símbolo de porcentagem no eixo Y
+              }
+            },
+            grid: {
+              color: '#eaeaea',
+            },
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context) => `${context.raw}%`, // Mostra o valor com % no tooltip
+            }
+          },
+          datalabels: {
+            anchor: 'end',
+            align: 'end',
+            formatter: (value: number) => `${value}%`, // Formata os rótulos de cada barra com %
+            color: '#000',
+          }
+        },
+        elements: {
+          bar: {
+            borderRadius: 5, // Adiciona borda arredondada nas colunas
+            borderWidth: 2,
+            backgroundColor: brandSuccess,
+            borderColor: brandSuccess
+          }
+        }
       },
       data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: [], // As datas serão preenchidas dinamicamente
         datasets: [
           {
-            label: 'GitHub Commits',
-            backgroundColor: '#f87979',
-            data: [40, 20, 12, 39, 17, 42, 79]
+            label: 'OEE %',
+            data: [], // Os valores de OEE serão preenchidos dinamicamente
+            backgroundColor: brandSuccess,
+            borderRadius: 5,
+            borderWidth: 2,
+            borderColor: brandSuccess,
+          },
+          {
+            label: 'Tendency Line', // Linha de tendência
+            type: 'line', // Tipo de gráfico linha
+            data: [], // Valores da linha de tendência
+            borderColor: brandDanger, // Cor da linha
+            borderWidth: 2,
+            fill: false, // Sem preenchimento abaixo da linha
+            pointRadius: 0, // Sem pontos visíveis
+            tension: 0.4, // Curvatura leve na linha
           }
         ]
       }
     };
   }
 
-  // Doughnut Chart Initialization
   initDoughnutChart() {
     this.chartDoughnutData = {
       type: 'doughnut',
-      options: { maintainAspectRatio: false },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context) => `${context.label}: ${context.raw} units`, // Exibe as unidades produzidas
+            }
+          },
+          // Configuração para exibir rótulos nas fatias do gráfico
+          datalabels: {
+            formatter: (value: number, context) => {
+              const labels = context.chart.data.labels;
+              if (labels && labels[context.dataIndex]) {
+                const label = labels[context.dataIndex];
+                return `${label}: ${value} units`; // Exibe o rótulo com o valor
+              }
+              return `${value} units`; 
+            },
+            color: '#fff', 
+            font: {
+              weight: 'bold',
+              size: 14,
+            },
+            anchor: 'center',
+            align: 'center',
+          }
+        }
+      },
       data: {
-        labels: ['VueJs', 'EmberJs', 'ReactJs', 'Angular'],
+        labels: ['Items Produced', 'Defective Items'], 
         datasets: [{
-          backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-          data: [40, 20, 80, 10]
+          backgroundColor: ['#41B883', '#E46651'], 
+          data: [0, 0],
         }]
       }
     };
   }
 
-  // Pie Chart Initialization
   initPieChart() {
     this.chartPieData = {
       type: 'pie',
       options: { maintainAspectRatio: false },
       data: {
-        labels: ['Red', 'Green', 'Yellow'],
+        labels: ['Defective Items'],
         datasets: [{
-          data: [300, 50, 100],
-          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+          data: [300, 50],
+          backgroundColor: ['#FF6384', '#36A2EB'],
+          hoverBackgroundColor: ['#FF6384', '#36A2EB']
         }]
       }
     };
   }
 
-  // Polar Area Chart Initialization
+  // Inicialização do gráfico Polar Area
   initPolarAreaChart() {
     this.chartPolarAreaData = {
       type: 'polarArea',
@@ -197,7 +377,7 @@ export class DashboardChartsData {
     };
   }
 
-  // Radar Chart Initialization
+  // Inicialização do gráfico Radar
   initRadarChart() {
     this.chartRadarData = {
       type: 'radar',
@@ -226,6 +406,7 @@ export class DashboardChartsData {
     };
   }
 
+  // Configurações de escalas
   getScales() {
     const colorBorderTranslucent = getStyle('--cui-border-color-translucent');
     const colorBody = getStyle('--cui-body-color');
@@ -248,5 +429,9 @@ export class DashboardChartsData {
       }
     };
     return scales;
+  }
+
+  public random(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 }

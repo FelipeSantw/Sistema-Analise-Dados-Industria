@@ -1,4 +1,4 @@
-[
+export const productionData = [
 	{
 		"id": 98264,
 		"productionTime": 16,

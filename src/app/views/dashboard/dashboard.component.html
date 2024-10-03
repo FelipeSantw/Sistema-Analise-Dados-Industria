@@ -9,13 +9,17 @@
         {{ machine.id }} - {{ machine.name }}
       </option>
     </select>
+    <br><br>
+    <button cButton class="mb-3" type="submit">
+      Sincronizar Dados
+    </button>
   </c-card-body>
 </c-card>
 
 <!-- Gráfico Principal -->
 <c-card class="my-4">
   <c-card-body>
-    <h4 class="card-title mb-0">Main Chart</h4>
+    <h4 class="card-title mb-0">Trend Machine Production</h4>
     <c-chart
       [data]="mainChart.data"
       [height]="300"
@@ -29,7 +33,7 @@
 <!-- Gráfico de Barras -->
 <c-card class="my-4">
   <c-card-body>
-    <h4 class="card-title mb-0">Bar Chart</h4>
+    <h4 class="card-title mb-0">Percentual and Tendency OEE</h4>
     <c-chart
       [data]="chartBarData.data"
       [height]="300"
@@ -42,7 +46,7 @@
 <!-- Gráfico Doughnut -->
 <c-card class="my-4">
   <c-card-body>
-    <h4 class="card-title mb-0">Doughnut Chart</h4>
+    <h4 class="card-title mb-0">Produced Itens: Good x Defected</h4>
     <c-chart
       [data]="chartDoughnutData.data"
       [height]="300"

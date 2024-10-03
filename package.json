@@ -38,6 +38,7 @@
     "@coreui/utils": "^2.0.2",
     "@types/chart.js": "^2.9.41",
     "chart.js": "^4.4.4",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "coreui-free-angular-admin-template": "file:",
     "lodash-es": "^4.17.21",
     "ngx-scrollbar": "^13.0.3",

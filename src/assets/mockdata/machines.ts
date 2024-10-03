@@ -1,4 +1,4 @@
-export const machines = [
+export const machinesData = [
 	{
 		"id": 4823,
 		"name": "Máquina de Embalagem",
