@@ -3,6 +3,7 @@ import { IconDirective } from '@coreui/icons-angular';
 import { ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective } from '@coreui/angular';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.services';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-register',
@@ -14,7 +15,11 @@ import { AuthService } from 'src/app/auth/auth.services';
 export class RegisterComponent {
   registryForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+      private fb: FormBuilder,
+      private authService: AuthService,
+      private router: Router
+    ) {
     this.registryForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -28,6 +33,7 @@ export class RegisterComponent {
       this.authService.register(email, password)
       .then((result) => {
         console.log('Usuário registrado com sucesso', result);
+        this.router.navigate(['/']);
       })
       .catch((error) => {
         console.error('Erro ao registrar', error);

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { DefaultLayoutComponent } from './layout'; // Import do layout padrão
-
+import { DefaultLayoutComponent } from './layout';
+import { AuthGuard } from './auth.guard';
 export const routes: Routes = [
   {
     path: '',
@@ -16,7 +16,8 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes)
+        loadChildren: () => import('./views/dashboard/routes').then((m) => m.routes),
+        canActivate: [AuthGuard]
       },
       {
         path: 'theme',
