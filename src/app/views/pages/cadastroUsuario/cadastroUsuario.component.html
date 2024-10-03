@@ -1,37 +1,66 @@
 <app-default-header></app-default-header>
-<form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="form_cadastro" style="background-color: #ffffff;">
-  <h1>Cadastro de usuário</h1>
-  <p class="text-body-secondary">Crie sua conta</p>
-  
-  <div class="mb-3">
-    <input id="nome" formControlName="nome" placeholder="Nome de usuário" />
-  </div>
-  
-  <div class="mb-3">
-    <input id="email" formControlName="email" placeholder="E-mail" />
-  </div>
-  
-  <div class="mb-3">
-    <select id="genero" formControlName="genero">
-      <option value="">Gênero</option>
-      <option value="Masculino">Masculino</option>
-      <option value="Feminino">Feminino</option>
-    </select>
-  </div>
-  
-  <div class="mb-3">
-    <input id="dataNascimento" formControlName="dataNascimento" type="date" placeholder="Data de nascimento"/>
-  </div>
-  
-  <div class="mb-3">
-    <input id="senha" formControlName="senha" type="password" placeholder="Senha" />
-  </div>
-  
-  <div class="mb-3">
-    <input id="confirmaSenha" formControlName="confirmaSenha" type="password" placeholder="Confirme sua senha" />
-  </div>
-  
-  <div class="d-grid">
-    <button type="submit" class="btn btn-success">Criar conta</button>
-  </div>
-</form>
+
+<div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col lg="7" md="9" xl="6">
+        <c-card class="mx-4">
+          <c-card-body class="p-4">
+            <form cForm (ngSubmit)="onSubmit()" [formGroup]="cadastroForm">
+              <h1>Cadastro de usuário</h1>
+              <p class="text-body-secondary">Crie sua conta</p>
+              
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilUser"></svg>
+                </span>
+                <input id="nome" autoComplete="name" cFormControl formControlName="nome" placeholder="Nome de usuário" />
+              </c-input-group>
+              
+              <c-input-group class="mb-3">
+                <span cInputGroupText>&#64;</span>
+                <input id="email" autoComplete="email" cFormControl formControlName="email" placeholder="E-mail" />
+              </c-input-group>
+              
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilPeople"></svg>
+                </span>
+                <select id="sexo" formControlName="genero" class="form-control ng-untouched ng-pristine ng-invalid">
+                  <option value="">Gênero</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                </select>
+              </c-input-group>
+              
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilCalendar"></svg>
+                </span>
+                <input id="dataNascimento" type="date" autoComplete="dataNascimento" cFormControl formControlName="dataNascimento" placeholder="Data de nascimento"/>
+              </c-input-group>
+              
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input id="senha" autoComplete="new-password" cFormControl formControlName="senha" placeholder="Senha" type="password" />
+              </c-input-group>
+              
+              <c-input-group class="mb-4">
+                <span cInputGroupText>
+                  <svg cIcon name="cilLockLocked"></svg>
+                </span>
+                <input id="confirmaSenha" autoComplete="new-password" cFormControl formControlName="confirmaSenha" placeholder="Confirme sua senha" type="password" />
+              </c-input-group>
+              
+              <div class="d-grid">
+                <button cButton color="success" style="color: #ffffff;" type="submit">Criar conta</button>
+              </div>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>
