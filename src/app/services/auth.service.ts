@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://api.simulated-endpoint.com/login'; // Substituir pelo endpoint
+  public apiUrl = 'https://api.simulated-endpoint.com/login'; // Substituir pelo endpoint
 
   constructor(private http: HttpClient) {}
 

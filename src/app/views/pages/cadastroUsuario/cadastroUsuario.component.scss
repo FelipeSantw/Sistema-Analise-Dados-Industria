@@ -7,3 +7,17 @@ select#genero {
     border: var(--cui-border-width) solid var(--cui-border-color);
     border-radius: var(--cui-border-radius);
 }
+
+.form_cadastro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 1000px;
+    border: 1px solid #444444a6;
+    border-radius: 8px;
+    margin: auto;
+}
+
+.form_cadastro > input {
+    width: 100%;
+}

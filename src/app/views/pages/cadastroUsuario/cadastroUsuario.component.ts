@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IconDirective } from '@coreui/icons-angular';
 import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { DefaultHeaderComponent } from '../../../layout/default-layout/default-header/default-header.component';
+
 
 import { 
   ColDirective,
@@ -25,6 +28,7 @@ import {
   styleUrls: ['./cadastroUsuario.component.scss'],
   standalone: true,
   imports: [
+    DefaultHeaderComponent,
     ContainerComponent, 
     RowComponent, 
     ColComponent, 
@@ -37,7 +41,8 @@ import {
     IconDirective, 
     FormControlDirective, 
     ButtonDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ]
 })
 export class CadastroUsuarioComponent implements OnInit {
