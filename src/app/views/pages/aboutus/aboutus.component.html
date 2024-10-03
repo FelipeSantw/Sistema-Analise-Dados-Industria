@@ -1,0 +1,66 @@
+<div class="bg-light dark:bg-transparent min-vh-100 d-flex flex-row align-items-center">
+  <c-container breakpoint="md">
+    <c-row class="justify-content-center">
+      <c-col lg="12" xl="20">
+        <c-card-group>
+          <c-card class="p-4">
+            <c-card-body>
+              <form cForm>
+                <h3>Sobre Nós</h3>
+                <p class="text-body-secondary" style="text-align: justify;">Este projeto é um dashboard desenvolvido para a Indústria 4.0, 
+                  com o objetivo de coletar dados de produção e máquinas de um sistema externo e exibir essas informações em gráficos interativos.
+                  Os dados incluem métricas de produção, eficiência das máquinas e OEE (Overall Equipment Effectiveness),
+                  previamente calculados pelo sistema externo.</p>
+                  <br/>
+                  <h3>Tecnologias Utilizadas</h3>
+                  <p class="text-body-secondary" style="text-align: justify; font-size: 16px">
+                    <strong>Framework Utilizado:</strong> Framework utilizado seguindo o paradigma MVC para a criação de uma Single Page Application (SPA);<br>
+                    <br/>
+                    <strong>Firebase OAuth 2:</strong> Utilizado para autenticação de usuários via Google;<br>
+                    <br/>
+                    <strong>API RESTful:</strong> Comunicação assíncrona com o backend para coleta de dados de produção e máquinas;<br>
+                    <br/>
+                    <strong>Chart.js:</strong> Biblioteca para a construção de gráficos dinâmicos e interativos;<br>
+                    <br/>
+                    <strong>Firebase Authentication:</strong> Integração para login e cadastro de usuários utilizando Google OAuth 2;<br>
+                    <br/>
+                    <strong>Sistema Web Assíncrono:</strong> As interações com o servidor e a coleta de dados são feitas de forma assíncrona.
+                  </p>
+                  <br/>
+                  <p class="text-body-secondary" style="text-align: justify; font-size: 13px;">Desenvolvido por: Felipe S. Bittencourt, Daniel W. Kessler,
+                    Matheus Borba, Ricardo Jacques
+                  </p>
+              </form>
+            </c-card-body>
+          </c-card>
+          <c-card [ngStyle]="{'minWidth.%': 44}" style="background-color: #122266; color: white;">
+            <c-card-body class="text-center" style="background-color: #122266; color: white; margin-top: 5%; padding-left: 10%; padding-right: 10%;">
+              <div>
+                <img src="assets/images/unisinos.png" style="height: 70%; width: 70%; margin-bottom: 3%;">
+                <hr style="border: none; height: 3px; background-color: white; margin-bottom: 3%;">
+                <p style="text-align: justify; font-size: 16px ">
+                  A Universidade do Vale do Rio dos Sinos (Unisinos) é uma instituição de ensino superior localizada em Porto Alegre, Rio Grande do Sul, Brasil.
+                  Fundada em 1969, a Unisinos se destaca por sua tradição acadêmica e pela qualidade de seus cursos, oferecendo uma ampla gama de programas de graduação
+                  e pós-graduação em diversas áreas, incluindo ciências humanas, sociais, exatas e da saúde.<br>
+                  <br/>
+                  A universidade é conhecida por sua abordagem inovadora e por estar sempre em sintonia com as demandas do mercado de trabalho,
+                  promovendo uma formação integral que prepara seus alunos para os desafios profissionais. A Unisinos também conta com infraestrutura moderna,
+                  laboratórios bem equipados e um corpo docente altamente qualificado.<br>
+                  <br/>
+                  Além do ensino, a Unisinos se envolve em atividades de pesquisa e extensão, contribuindo para o desenvolvimento social e cultural da região.
+                  Com um campus agradável e uma comunidade acadêmica vibrante, a universidade é um excelente lugar para aprender, crescer e se desenvolver.
+                </p>
+                <hr style="border: none; height: 3px; background-color: white; margin-top: 3%;">
+                <button [active]="true" cButton class="mt-3" style="background-color: white; color: black" 
+                  onclick="window.open('https://www.unisinos.br', '_blank')">
+                Clique aqui e conheça mais!
+                </button>
+                <br/>
+              </div>
+            </c-card-body>
+          </c-card>
+        </c-card-group>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

@@ -38,6 +38,11 @@ export const navItems: INavData[] = [
         name: 'Error 500',
         url: '/500',
         icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Sobre Nós',
+        url: '/aboutus',
+        icon: 'nav-icon-bullet'
       }
     ]
   },

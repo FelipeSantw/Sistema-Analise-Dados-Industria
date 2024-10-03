@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { DefaultLayoutComponent } from './layout';
+import { DefaultLayoutComponent } from './layout'; // Import do layout padrão
 
 export const routes: Routes = [
   {
@@ -9,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    component: DefaultLayoutComponent,
+    component: DefaultLayoutComponent, // Layout padrão envolvendo as rotas principais
     data: {
       title: 'Home'
     },
@@ -53,9 +53,17 @@ export const routes: Routes = [
       {
         path: 'pages',
         loadChildren: () => import('./views/pages/routes').then((m) => m.routes)
+      },
+      {
+        path: 'aboutus',
+        loadComponent: () => import('./views/pages/aboutus/aboutus.component').then(m => m.AboutUsComponent),
+        data: {
+          title: 'About Us Page'
+        }
       }
     ]
   },
+  // Rotas fora do layout padrão (como login, 404 e 500)
   {
     path: '404',
     loadComponent: () => import('./views/pages/page404/page404.component').then(m => m.Page404Component),
@@ -84,5 +92,8 @@ export const routes: Routes = [
       title: 'Register Page'
     }
   },
-  { path: '**', redirectTo: 'dashboard' }
+  { 
+    path: '**', 
+    redirectTo: 'dashboard' 
+  }
 ];

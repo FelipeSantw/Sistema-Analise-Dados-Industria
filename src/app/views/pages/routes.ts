@@ -23,6 +23,19 @@ export const routes: Routes = [
     }
   },
   {
+    path: '',
+    loadComponent: () => import('../../layout/default-layout/default-layout.component').then(m => m.DefaultLayoutComponent),
+    children: [
+      {
+        path: 'aboutus',
+        loadComponent: () => import('./aboutus/aboutus.component').then(m => m.AboutUsComponent),
+        data: {
+          title: 'About Us Page'
+        }
+      }
+    ]
+  },
+  {
     path: 'register',
     loadComponent: () => import('./register/register.component').then(m => m.RegisterComponent),
     data: {
