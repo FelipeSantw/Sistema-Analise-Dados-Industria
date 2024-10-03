@@ -9,17 +9,35 @@
         {{ machine.id }} - {{ machine.name }}
       </option>
     </select>
-    <br><br>
-    <button cButton class="mb-3" type="submit">
+    <br>
+    <button cButton class="mb-3" type="button" (click)="onSyncData()">
       Sincronizar Dados
     </button>
   </c-card-body>
 </c-card>
 
-<!-- Gráfico Principal -->
+<div class="machine-info-container" *ngIf="selectedMachine">
+  <div class="machine-card">
+    <h3>{{ selectedMachine.name }}</h3>
+    <p><strong>ID:</strong> {{ selectedMachine.id }}</p>
+    <p><strong>Localização:</strong> {{ selectedMachine.location }}</p>
+  </div>
+  <div class="machine-card">
+    <h3>Monitoramento</h3>
+    <p><strong>Status:</strong> {{ selectedMachine.status }}</p>
+    <p><strong>Tipo:</strong> {{ selectedMachine.type }}</p>
+  </div>
+  <div class="machine-card">
+    <h3>Recursos</h3>
+    <p><strong>OEE Maquina:</strong> {{ selectedMachine.oeePercentage }}%</p>
+    <p><strong>Tempo de Produção Estimado:</strong> {{ selectedMachine.plannedProductionTime }} hours</p>
+    <p><strong>Capacidade de Produção:</strong> {{ selectedMachine.productionCapacity }} units</p>
+  </div>
+</div>
+
 <c-card class="my-4">
   <c-card-body>
-    <h4 class="card-title mb-0">Trend Machine Production</h4>
+    <h4 class="card-title mb-0">Trend de Produção</h4>
     <c-chart
       [data]="mainChart.data"
       [height]="300"
@@ -30,10 +48,9 @@
   </c-card-body>
 </c-card>
 
-<!-- Gráfico de Barras -->
 <c-card class="my-4">
   <c-card-body>
-    <h4 class="card-title mb-0">Percentual and Tendency OEE</h4>
+    <h4 class="card-title mb-0">Percentual e Tendencia de OEE</h4>
     <c-chart
       [data]="chartBarData.data"
       [height]="300"
@@ -43,10 +60,9 @@
   </c-card-body>
 </c-card>
 
-<!-- Gráfico Doughnut -->
 <c-card class="my-4">
   <c-card-body>
-    <h4 class="card-title mb-0">Produced Itens: Good x Defected</h4>
+    <h4 class="card-title mb-0">Itens Produzidos: Sucessos x Defeituosos</h4>
     <c-chart
       [data]="chartDoughnutData.data"
       [height]="300"
@@ -56,23 +72,9 @@
   </c-card-body>
 </c-card>
 
-<!-- Gráfico Pie -->
 <c-card class="my-4">
   <c-card-body>
-    <h4 class="card-title mb-0">Pie Chart</h4>
-    <c-chart
-      [data]="chartPieData.data"
-      [height]="300"
-      [options]="chartPieData.options"
-      type="pie">
-    </c-chart>
-  </c-card-body>
-</c-card>
-
-<!-- Gráfico Radar -->
-<c-card class="my-4">
-  <c-card-body>
-    <h4 class="card-title mb-0">Radar Chart</h4>
+    <h4 class="card-title mb-0">Resultados por Turno</h4>
     <c-chart
       [data]="chartRadarData.data"
       [height]="300"
