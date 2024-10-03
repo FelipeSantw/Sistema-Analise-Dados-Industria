@@ -141,17 +141,24 @@ export class DashboardComponent implements OnInit {
 
   updateChartsWithSelectedProductions(): void {
     const sortedProductions = this.selectedProductions.sort((a, b) => a.productionDate - b.productionDate);
-    
+  
     const productionTimes = sortedProductions.map(p => p.productionTime);
     const itemsProduced = sortedProductions.map(p => p.itemsProduced);
     const defectiveItems = sortedProductions.map(p => p.defectiveItems);
     const oeePercentages = sortedProductions.map(p => p.oeePercentage);
-    
+    const shifts = sortedProductions.map(p => p.shift); 
     const labels = sortedProductions.map(p => {
       const date = new Date(p.productionDate);
       return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
     });
-    
+  
+    const totalItemsProduced = itemsProduced.reduce((acc, produced) => acc + produced, 0);
+    const totalDefectiveItems = defectiveItems.reduce((acc, defects) => acc + defects, 0);
+    const successfulItems = totalItemsProduced - totalDefectiveItems;
+  
+    const successfulItemsPercent = (successfulItems / totalItemsProduced) * 100;
+    const defectiveItemsPercent = (totalDefectiveItems / totalItemsProduced) * 100;
+  
     this.#chartsData.updateMainChartData(itemsProduced, defectiveItems, labels);
     this.#chartsData.updateBarChartData(oeePercentages, labels);
     this.#chartsData.updateDoughnutChartData(itemsProduced, defectiveItems);
