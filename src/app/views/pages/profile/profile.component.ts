@@ -3,13 +3,13 @@ import { IconDirective } from '@coreui/icons-angular';
 import { ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, FormControlDirective, ButtonDirective } from '@coreui/angular';
 
 @Component({
-    selector: 'app-cadastroUsuario',
-    templateUrl: './cadastroUsuario.component.html',
-    styleUrls: ['./cadastroUsuario.component.scss'],
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
     standalone: true,
     imports: [ContainerComponent, RowComponent, ColComponent, TextColorDirective, CardComponent, CardBodyComponent, FormDirective, InputGroupComponent, InputGroupTextDirective, IconDirective, FormControlDirective, ButtonDirective]
 })
-export class cadastroUsuarioComponent {
+export class ProfileComponent {
 
   constructor() { }
 

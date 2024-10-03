@@ -4,16 +4,16 @@ import { ButtonModule, CardModule, FormModule, GridModule } from '@coreui/angula
 import { IconModule } from '@coreui/icons-angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from '../../../icons/icon-subset';
-import { cadastroUsuarioComponent } from './cadastroUsuario.component';
+import { CadastroUsuarioComponent } from './cadastroUsuario.component';
 
 describe('RegisterComponent', () => {
-  let component: cadastroUsuarioComponent;
-  let fixture: ComponentFixture<cadastroUsuarioComponent>;
+  let component: CadastroUsuarioComponent;
+  let fixture: ComponentFixture<CadastroUsuarioComponent>;
   let iconSetService: IconSetService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [CardModule, FormModule, GridModule, ButtonModule, IconModule, cadastroUsuarioComponent],
+    imports: [CardModule, FormModule, GridModule, ButtonModule, IconModule, CadastroUsuarioComponent],
     providers: [IconSetService]
 })
     .compileComponents();
@@ -23,7 +23,7 @@ describe('RegisterComponent', () => {
     iconSetService = TestBed.inject(IconSetService);
     iconSetService.icons = { ...iconSubset };
 
-    fixture = TestBed.createComponent(cadastroUsuarioComponent);
+    fixture = TestBed.createComponent(CadastroUsuarioComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

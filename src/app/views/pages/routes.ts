@@ -23,6 +23,13 @@ export const routes: Routes = [
     }
   },
   {
+    path: 'profile',
+    loadComponent: () => import('./profile/profile.component').then(m => m.ProfileComponent),
+    data: {
+      title: 'Profile Page'
+    }
+  },
+  {
     path: '',
     loadComponent: () => import('../../layout/default-layout/default-layout.component').then(m => m.DefaultLayoutComponent),
     children: [
