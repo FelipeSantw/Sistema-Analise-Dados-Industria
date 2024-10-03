@@ -10,8 +10,8 @@ import { SyncService } from './sync.service';
 import { WidgetsBrandComponent } from '../widgets/widgets-brand/widgets-brand.component';
 import { WidgetsDropdownComponent } from '../widgets/widgets-dropdown/widgets-dropdown.component';
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
-// import { machinesData } from '../../../assets/mockdata/machines';  // Dados mockados comentados
-// import { productionData } from '../../../assets/mockdata/production'; // Dados mockados comentados
+// import { machinesData } from '../../../assets/mockdata/machines';  // Dados mockados
+// import { productionData } from '../../../assets/mockdata/production'; 
 
 interface Machine {
   id: number;
@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
   readonly #renderer: Renderer2 = inject(Renderer2);
   readonly #chartsData: DashboardChartsData = inject(DashboardChartsData);
 
-  public machines: Machine[] = [];  // Alterado para buscar via API
+  public machines: Machine[] = []; 
   public productions: Production[] = [];
   public selectedMachineId: number | null = null;
   public selectedProductions: Production[] = [];
@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.initCharts();
     this.updateChartOnColorModeChange();
-    this.loadMachinesFromAPI();  // Carregar máquinas via API
+    this.loadMachinesFromAPI();
   }
 
   loadMachinesFromAPI(): void {
@@ -117,14 +117,13 @@ export class DashboardComponent implements OnInit {
     this.syncService.getMachines().subscribe({
       next: (response: any) => {
         const machines = response.data;
-        this.selectedMachine = machines.find((machine: any) => machine.id === this.selectedMachineId); // Definir a máquina selecionada
+        this.selectedMachine = machines.find((machine: any) => machine.id === this.selectedMachineId);
         console.log('Selected Machine:', this.selectedMachine);
       },
       error: (error: any) => {
         console.error('Erro ao buscar informações da máquina:', error);
       }
     });
-    // Chamar o serviço para buscar as produções relacionadas à máquina selecionada
     this.syncService.getProductionByMachineId(this.selectedMachineId).subscribe({
       next: (response: any) => {
         const productions = response.data;
@@ -206,7 +205,6 @@ export class DashboardComponent implements OnInit {
       const dateB = typeof b.productionDate === 'string' ? parseInt(b.productionDate, 10) : b.productionDate;
       return dateA - dateB;
     });
-    // Extrair dados
     const productionTimes = sortedProductions.map(p => p.productionTime);
     const itemsProduced = sortedProductions.map(p => p.itemsProduced);
     const defectiveItems = sortedProductions.map(p => p.defectiveItems);
@@ -219,7 +217,6 @@ export class DashboardComponent implements OnInit {
       return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
     });
   
-    // Dados para gráfico de Rosca (Doughnut)
     const totalItemsProduced = itemsProduced.reduce((acc, produced) => acc + produced, 0);
     const totalDefectiveItems = defectiveItems.reduce((acc, defects) => acc + defects, 0);
     const successfulItems = totalItemsProduced - totalDefectiveItems;
@@ -227,21 +224,17 @@ export class DashboardComponent implements OnInit {
     const successfulItemsPercent = (successfulItems / totalItemsProduced) * 100;
     const defectiveItemsPercent = (totalDefectiveItems / totalItemsProduced) * 100;
   
-    // Atualização demais gráficos
     this.#chartsData.updateMainChartData(itemsProduced, defectiveItems, labels);
     this.#chartsData.updateBarChartData(oeePercentages, labels);
     this.#chartsData.updateDoughnutChartData(itemsProduced, defectiveItems);
   
-    // Cálculo para gráfico de radar (médias por turno)
     const shiftsUnique = [...new Set(shifts)];
     const averageDataByShift: { [key: string]: { productionTime: number; itemsProduced: number; defectiveItems: number; count: number } } = {};
   
-    // Inicializando as médias por turno
     shiftsUnique.forEach(shift => {
       averageDataByShift[shift] = { productionTime: 0, itemsProduced: 0, defectiveItems: 0, count: 0 };
     });
   
-    // Calculando as somas para cada turno
     sortedProductions.forEach(production => {
       const shift = production.shift;
       if (averageDataByShift[shift]) {
@@ -252,7 +245,6 @@ export class DashboardComponent implements OnInit {
       }
     });
   
-    // Calculando as médias para cada turno
     shiftsUnique.forEach(shift => {
       if (averageDataByShift[shift].count > 0) {
         averageDataByShift[shift].productionTime /= averageDataByShift[shift].count;
@@ -261,12 +253,11 @@ export class DashboardComponent implements OnInit {
         const defective = averageDataByShift[shift].defectiveItems;
         const success = totalProduced - defective;
   
-        averageDataByShift[shift].itemsProduced = (success / totalProduced) * 100; // Percentual de sucesso
-        averageDataByShift[shift].defectiveItems = (defective / totalProduced) * 100; // Percentual de defeito
+        averageDataByShift[shift].itemsProduced = (success / totalProduced) * 100; 
+        averageDataByShift[shift].defectiveItems = (defective / totalProduced) * 100; 
       }
     });
   
-    // Atualizando gráfico de radar
     this.#chartsData.updateRadarChartData(averageDataByShift, shiftsUnique);
   }  
 }

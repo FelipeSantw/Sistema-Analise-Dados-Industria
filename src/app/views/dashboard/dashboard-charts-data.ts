@@ -166,18 +166,16 @@ export class DashboardChartsData {
   }
   
   updateRadarChartData(averageDataByShift: any, shifts: string[]): void {
-    // Definindo as cores fixas para até três turnos
     const shiftColors = [
-      { backgroundColor: 'rgba(75,192,192,0.2)', borderColor: 'rgba(75,192,192,1)' }, // Verde
-      { backgroundColor: 'rgba(255,99,132,0.2)', borderColor: 'rgba(255,99,132,1)' }, // Vermelho
-      { backgroundColor: 'rgba(54,162,235,0.2)', borderColor: 'rgba(54,162,235,1)' }  // Azul
+      { backgroundColor: 'rgba(75,192,192,0.2)', borderColor: 'rgba(75,192,192,1)' }, 
+      { backgroundColor: 'rgba(255,99,132,0.2)', borderColor: 'rgba(255,99,132,1)' }, 
+      { backgroundColor: 'rgba(54,162,235,0.2)', borderColor: 'rgba(54,162,235,1)' } 
     ];
   
-    // Atualizando os dados do gráfico Radar
     this.chartRadarData.data = {
-      labels: ['Tempo de Produção', 'Itens Produzidos (%)', 'Itens Defeituosos (%)'], // Arestas
+      labels: ['Tempo de Produção', 'Itens Produzidos (%)', 'Itens Defeituosos (%)'],
       datasets: shifts.map((shift, index) => {
-        const colorIndex = index % shiftColors.length; // Para garantir que não ultrapassemos o número de cores
+        const colorIndex = index % shiftColors.length; 
         const colors = shiftColors[colorIndex];
   
         return {
@@ -187,21 +185,19 @@ export class DashboardChartsData {
           pointBackgroundColor: colors.borderColor,
           pointBorderColor: '#fff',
           data: [
-            averageDataByShift[shift].productionTime,   // Tempo de Produção
-            averageDataByShift[shift].itemsProduced,    // Itens Produzidos (%)
-            averageDataByShift[shift].defectiveItems    // Itens Defeituosos (%)
+            averageDataByShift[shift].productionTime,  
+            averageDataByShift[shift].itemsProduced,
+            averageDataByShift[shift].defectiveItems 
           ]
         };
       })
     };
   
-    // Garantir que o gráfico seja atualizado visualmente
     if (this.chartRadarRef) {
       this.chartRadarRef.update();
     }
   }
 
-  // Inicialização dos gráficos
   initMainChart() {
     const brandSuccess = getStyle('--cui-success') ?? '#4dbd74';
     const brandInfo = getStyle('--cui-info') ?? '#20a8d8';
