@@ -2,8 +2,17 @@ import { INavData } from '@coreui/angular';
 
 export const navItems: INavData[] = [
   {
+    name: 'Dashboard',
+    url: '/dashboard',
+    iconComponent: { name: 'cil-speedometer' },
+    badge: {
+      color: 'info',
+      text: 'NEW'
+    }
+  },
+  {
     title: true,
-    name: 'Home'
+    name: 'Theme'
   },
   {
     name: 'Pages',
@@ -11,9 +20,24 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-star' },
     children: [
       {
-        name: 'Dashboard',
-        url: '/dashboard',
-        iconComponent: { name: 'cil-speedometer' },
+        name: 'Login',
+        url: '/login',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Register',
+        url: '/register',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Error 404',
+        url: '/404',
+        icon: 'nav-icon-bullet'
+      },
+      {
+        name: 'Error 500',
+        url: '/500',
+        icon: 'nav-icon-bullet'
       },
       {
         name: 'Sobre Nós',
@@ -21,5 +45,19 @@ export const navItems: INavData[] = [
         icon: 'nav-icon-bullet'
       }
     ]
+  },
+  {
+    title: true,
+    name: 'Links',
+    class: 'mt-auto'
+  },
+  {
+    name: 'Widgets',
+    url: '/widgets',
+    iconComponent: { name: 'cil-calculator' },
+    badge: {
+      color: 'info',
+      text: 'NEW'
+    }
   },
 ];
