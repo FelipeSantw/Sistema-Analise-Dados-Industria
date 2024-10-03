@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, NgModule, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
@@ -7,12 +7,14 @@ import { delay, filter, map, tap } from 'rxjs/operators';
 import { ColorModeService } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from './icons/icon-subset';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CadastroUsuarioComponent } from 'src/app/views/pages/cadastroUsuario/cadastroUsuario.component';
 
 @Component({
   selector: 'app-root',
   template: '<router-outlet />',
   standalone: true,
-  imports: [RouterOutlet]
+  imports: [RouterOutlet, ReactiveFormsModule, CadastroUsuarioComponent]
 })
 export class AppComponent implements OnInit {
   title = 'CoreUI Angular Admin Template';
@@ -56,3 +58,13 @@ export class AppComponent implements OnInit {
       .subscribe();
   }
 }
+
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  imports: [
+    HttpClientModule,
+    // outros imports...
+  ],
+})
+export class AppModule {}

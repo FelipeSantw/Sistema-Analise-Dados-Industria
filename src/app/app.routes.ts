@@ -79,7 +79,7 @@ export const routes: Routes = [
   },
   {
     path: 'cadastroUsuario',
-    loadComponent: () => import('./views/pages/cadastroUsuario/cadastroUsuario.component').then(m => m.cadastroUsuarioComponent),
+    loadComponent: () => import('./views/pages/cadastroUsuario/cadastroUsuario.component').then(m => m.CadastroUsuarioComponent),
     data: {
       title: 'Crie sua conta'
     }
