@@ -28,6 +28,8 @@ export interface IChartProps {
   providedIn: 'any'
 })
 export class DashboardChartsData {
+  selectedProductions: any;
+  chartRadarRef: any;
   initCharts(value: string) {
     throw new Error('Method not implemented.');
   }
@@ -54,14 +56,14 @@ export class DashboardChartsData {
       labels: labels,
       datasets: [
         {
-          label: 'Items Produced',
+          label: 'Itens Produzidos',
           data: itemsProduced,
           borderColor: '#20a8d8',
           backgroundColor: 'rgba(32, 168, 216, 0.2)',
           fill: true,
         },
         {
-          label: 'Defective Items',
+          label: 'Itens Defeituosos',
           data: defectiveItems,
           borderColor: '#f86c6b',
           backgroundColor: 'rgba(248, 108, 107, 0.2)',
@@ -130,7 +132,7 @@ export class DashboardChartsData {
           borderColor: '#4dbd74',
         },
         {
-          label: 'Tendency Line',
+          label: 'Linha de Tendência',
           type: 'line', 
           data: trendLine, 
           borderColor: '#f86c6b', 
@@ -148,7 +150,7 @@ export class DashboardChartsData {
     const totalDefectiveItems = defectiveItems.reduce((acc, defective) => acc + defective, 0);
   
     this.chartDoughnutData.data = {
-      labels: ['Items Produced', 'Defective Items'],
+      labels: ['Itens Produzidos', 'Itens Defeituosos'],
       datasets: [{
         data: [totalItemsProduced, totalDefectiveItems],
         backgroundColor: ['#41B883', '#E46651'],
@@ -158,9 +160,45 @@ export class DashboardChartsData {
 
   updatePieChartData(defectiveItems: number[]) {
     this.chartPieData.data = {
-      labels: ['Defective Items'],
+      labels: ['Itens Defeituosos'],
       datasets: [{ data: defectiveItems, backgroundColor: ['#FF6384', '#36A2EB'] }]
     };
+  }
+  
+  updateRadarChartData(averageDataByShift: any, shifts: string[]): void {
+    // Definindo as cores fixas para até três turnos
+    const shiftColors = [
+      { backgroundColor: 'rgba(75,192,192,0.2)', borderColor: 'rgba(75,192,192,1)' }, // Verde
+      { backgroundColor: 'rgba(255,99,132,0.2)', borderColor: 'rgba(255,99,132,1)' }, // Vermelho
+      { backgroundColor: 'rgba(54,162,235,0.2)', borderColor: 'rgba(54,162,235,1)' }  // Azul
+    ];
+  
+    // Atualizando os dados do gráfico Radar
+    this.chartRadarData.data = {
+      labels: ['Tempo de Produção', 'Itens Produzidos (%)', 'Itens Defeituosos (%)'], // Arestas
+      datasets: shifts.map((shift, index) => {
+        const colorIndex = index % shiftColors.length; // Para garantir que não ultrapassemos o número de cores
+        const colors = shiftColors[colorIndex];
+  
+        return {
+          label: shift,
+          backgroundColor: colors.backgroundColor,
+          borderColor: colors.borderColor,
+          pointBackgroundColor: colors.borderColor,
+          pointBorderColor: '#fff',
+          data: [
+            averageDataByShift[shift].productionTime,   // Tempo de Produção
+            averageDataByShift[shift].itemsProduced,    // Itens Produzidos (%)
+            averageDataByShift[shift].defectiveItems    // Itens Defeituosos (%)
+          ]
+        };
+      })
+    };
+  
+    // Garantir que o gráfico seja atualizado visualmente
+    if (this.chartRadarRef) {
+      this.chartRadarRef.update();
+    }
   }
 
   // Inicialização dos gráficos
@@ -193,8 +231,8 @@ export class DashboardChartsData {
     ];
   
     const datasets: ChartDataset[] = [
-      { data: [], label: 'Items Produced', ...colors[0] },
-      { data: [], label: 'Defective Items', ...colors[1] },
+      { data: [], label: 'Itens Produzidos', ...colors[0] },
+      { data: [], label: 'Itens Defeituosos', ...colors[1] },
       { data: [], label: 'Trend Line', ...colors[2] }
     ];
   
@@ -286,7 +324,7 @@ export class DashboardChartsData {
             borderColor: brandSuccess,
           },
           {
-            label: 'Tendency Line', 
+            label: 'Linha de Tendência', 
             type: 'line', 
             data: [], 
             borderColor: brandDanger, 
@@ -331,7 +369,7 @@ export class DashboardChartsData {
         }
       },
       data: {
-        labels: ['Items Produced', 'Defective Items'], 
+        labels: ['Com Sucesso', 'Com Defeitos'], 
         datasets: [{
           backgroundColor: ['#41B883', '#E46651'], 
           data: [0, 0],
@@ -355,30 +393,13 @@ export class DashboardChartsData {
     };
   }
 
-  initRadarChart() {
+  initRadarChart(): void {
     this.chartRadarData = {
       type: 'radar',
       options: { maintainAspectRatio: false },
       data: {
-        labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-        datasets: [
-          {
-            label: '2020',
-            backgroundColor: 'rgba(179,181,198,0.2)',
-            borderColor: 'rgba(179,181,198,1)',
-            pointBackgroundColor: 'rgba(179,181,198,1)',
-            pointBorderColor: '#fff',
-            data: [65, 59, 90, 81, 56, 55, 40]
-          },
-          {
-            label: '2021',
-            backgroundColor: 'rgba(255,99,132,0.2)',
-            borderColor: 'rgba(255,99,132,1)',
-            pointBackgroundColor: 'rgba(255,99,132,1)',
-            pointBorderColor: '#fff',
-            data: [28, 48, 40, 19, 96, 27, 100]
-          }
-        ]
+        labels: ['Tempo de Produção', 'Itens Produzidos', 'Itens Defeituosos'],
+        datasets: []
       }
     };
   }
