@@ -19,6 +19,22 @@
               </c-input-group>
               <c-input-group class="mb-3">
                 <span cInputGroupText>
+                  <svg cIcon name="cilPeople"></svg>
+                </span>
+                  <Select id="sexo" class="form-control ng-untouched ng-pristine ng-invalid">
+                    <option value="">Gênero</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                  </Select>
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
+                  <svg cIcon name="cilCalendar"></svg>
+                </span>
+                <input id="dataNascimento" type="date" autoComplete="dataNascimento" cFormControl placeholder="Data de nascimento"/>
+              </c-input-group>
+              <c-input-group class="mb-3">
+                <span cInputGroupText>
                   <svg cIcon name="cilLockLocked"></svg>
                 </span>
                 <input autoComplete="new-password" cFormControl placeholder="Senha" type="password" formControlName="password"/>
