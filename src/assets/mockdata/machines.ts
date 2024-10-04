@@ -1,7 +1,7 @@
 export const machinesData = [
 	{
 		"id": 4823,
-		"name": "Embalagem",
+		"name": "Máquina de Embalagem",
 		"type": "Usinagem",
 		"productionCapacity": 9923,
 		"plannedProductionTime": 16,
